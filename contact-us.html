@@ -9,6 +9,72 @@
     <title>QuadShop - Contact Us</title>
 </head>
 <body>
+
+    
+<div id="liveToastNotification" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 100001; padding: 15px 20px; border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.3s ease;">
+    <span id="toastIcon" style="font-size: 20px;"></span>
+    <div>
+        <strong id="toastTitle" style="display: block; font-size: 14px;"></strong>
+        <span id="toastMessage" style="font-size: 12px; opacity: 0.9;"></span>
+    </div>
+</div>
+
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:10000;">
+    <div style="background:#fff; padding:30px; border-radius:8px; max-width:400px; width:100%; position: relative; color: #333;">
+        <span onclick="closeAuthModal()" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; font-weight: bold;">&times;</span>
+        <h2 id="authTitle" style="margin-top: 0;">Log In to Your Account</h2>
+        <form id="authForm" onsubmit="submitAuthForm(event)">
+            <div id="authNameContainer" style="margin-bottom:10px; display: none;">
+                <label>Full Name:</label>
+                <input type="text" id="authName" style="width:100%; padding:8px;">
+            </div>
+            <div style="margin-bottom:10px;">
+                <label>Phone Number:</label>
+                <input type="text" id="authPhone" required style="width:100%; padding:8px;">
+            </div>
+            <div style="margin-bottom:10px;">
+                <label>Password:</label>
+                <input type="password" id="authPassword" required style="width:100%; padding:8px;">
+            </div>
+            <button type="submit" style="background:#0038BC; color:white; border:none; padding:10px; width:100%; font-weight:bold; cursor:pointer;">Submit</button>
+        </form>
+        <p id="authToggleText" style="text-align:center; margin-top:15px; font-size:14px; cursor:pointer; color:#EF8F00; margin-bottom: 0;" onclick="toggleAuthMode()">Don't have an account? Sign Up</p>
+    </div>
+</div>
+
+<div id="dashboardModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); justify-content: center; align-items: center; z-index: 10000; padding: 15px; box-sizing: border-box;">
+    <div style="background: #fff; padding: 30px; border-radius: 12px; max-width: 450px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; color: #333; font-family: 'Poppins', sans-serif; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+        <span onclick="closeDashboardModal()" style="position: absolute; top: 12px; right: 18px; font-size: 26px; cursor: pointer; font-weight: bold; color: #888;">&times;</span>
+        
+        <h2 style="margin-top: 0; color: #0038BC; border-bottom: 2px solid #f5f5f5; padding-bottom: 10px; font-size: 22px; font-weight: 600;">
+            <i class="fa-solid fa-gauge-high"></i> User Dashboard
+        </h2>
+        
+        <div style="margin-top: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #EF8F00; box-sizing: border-box;">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #333; font-weight: 600;">Account Profile</h3>
+            <p style="margin: 5px 0; font-size: 14px; word-break: break-word;"><strong>Full Name:</strong> <span id="dashName">Loading...</span></p>
+            <p style="margin: 5px 0; font-size: 14px; word-break: break-word;"><strong>Phone Number:</strong> <span id="dashPhone">Loading...</span></p>
+        </div>
+
+        <div style="margin-top: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #0038BC; box-sizing: border-box;">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #333; font-weight: 600;">Active Order Status</h3>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                <span id="dashStatusBadge" style="padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; color: white; display: inline-block;">
+                    Pending Approval
+                </span>
+            </div>
+            <p style="font-size: 11px; color: #777; margin-top: 8px; margin-bottom: 0; line-height: 1.4;">
+                *Admin decisions update here automatically upon order verification.
+            </p>
+        </div>
+
+        <button onclick="processLogout()" style="background: #d9534f; color: white; border: none; padding: 12px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 6px; margin-top: 25px; transition: 0.2s; font-size: 15px;">
+            <i class="fa-solid fa-right-from-bracket"></i> Log Out Account
+        </button>
+    </div>
+</div>
+
+    
     <header class="main-header">
     <h1 class="logo">Quad<span>Shop</span></h1>
 
