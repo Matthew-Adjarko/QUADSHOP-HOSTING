@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuadShop - Collections</title>
+
+    <link rel="stylesheet" href="collection.css">
+    <link rel="icon" type="image/png" href="../QUADSHOP VIBECODED - Database/images/QuadShop logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+
+<body>
+
+<header class="main-header">
+    <h1>Quad<span>Shop</span></h1>
+
+    <div class="menu-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <input type="text" placeholder="Search for products..." class="search-bar" id="searchBar" onkeyup="searchLocalArray()">
+    <ul class="tabs" id="navTabs">
+        <li><a href="official Website.html">Home</a></li>
+        <li><a href="official Website.html">About</a></li>
+        <li><a href="contact us.html">Contact</a></li>
+    </ul>
+
+    <div style="display: flex; gap: 1px; align-items: center;">
+        <div id="auth-status-btn" onclick="handleAuthClick()" style="cursor: pointer; font-weight: 500; color: #fff; background: #EF8F00; padding: 8px 12px; border-radius: 50px; font-size: 16px; display: flex; align-items: center; justify-content: center;" title="Account">
+            <i class="fas fa-user-circle"></i>
+        </div>
+
+        <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span>
+        </div>
+
+    </div>
+</header>
+
+<div id="liveToastNotification" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 100001; padding: 15px 20px; border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.3s ease;">
+    <span id="toastIcon" style="font-size: 20px;"></span>
+    <div>
+        <strong id="toastTitle" style="display: block; font-size: 14px;"></strong>
+        <span id="toastMessage" style="font-size: 12px; opacity: 0.9;"></span>
+    </div>
+</div>
+
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:10000;">
+    <div style="background:#fff; padding:30px; border-radius:8px; max-width:400px; width:100%; position: relative; color: #333;">
+        <span onclick="closeAuthModal()" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; font-weight: bold;">&times;</span>
+        <h2 id="authTitle" style="margin-top: 0;">Log In to Your Account</h2>
+        <form id="authForm" onsubmit="submitAuthForm(event)">
+            <div id="authNameContainer" style="margin-bottom:10px; display: none;">
+                <label>Full Name:</label>
+                <input type="text" id="authName" style="width:100%; padding:8px;">
+            </div>
+            <div style="margin-bottom:10px;">
+                <label>Phone Number:</label>
+                <input type="text" id="authPhone" required style="width:100%; padding:8px;">
+            </div>
+            <div style="margin-bottom:10px;">
+                <label>Password:</label>
+                <input type="password" id="authPassword" required style="width:100%; padding:8px;">
+            </div>
+            <button type="submit" style="background:#0038BC; color:white; border:none; padding:10px; width:100%; font-weight:bold; cursor:pointer;">Submit</button>
+        </form>
+        <p id="authToggleText" style="text-align:center; margin-top:15px; font-size:14px; cursor:pointer; color:#EF8F00; margin-bottom: 0;" onclick="toggleAuthMode()">Don't have an account? Sign Up</p>
+    </div>
+</div>
+
+<div id="dashboardModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); justify-content: center; align-items: center; z-index: 10000; padding: 15px; box-sizing: border-box;">
+    <div style="background: #fff; padding: 30px; border-radius: 12px; max-width: 450px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; color: #333; font-family: 'Poppins', sans-serif; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+        <span onclick="closeDashboardModal()" style="position: absolute; top: 12px; right: 18px; font-size: 26px; cursor: pointer; font-weight: bold; color: #888;">&times;</span>
+        
+        <h2 style="margin-top: 0; color: #0038BC; border-bottom: 2px solid #f5f5f5; padding-bottom: 10px; font-size: 22px; font-weight: 600;">
+            <i class="fa-solid fa-gauge-high"></i> User Dashboard
+        </h2>
+        
+        <div style="margin-top: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #EF8F00; box-sizing: border-box;">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #333; font-weight: 600;">Account Profile</h3>
+            <p style="margin: 5px 0; font-size: 14px; word-break: break-word;"><strong>Full Name:</strong> <span id="dashName">Loading...</span></p>
+            <p style="margin: 5px 0; font-size: 14px; word-break: break-word;"><strong>Phone Number:</strong> <span id="dashPhone">Loading...</span></p>
+        </div>
+
+        <div style="margin-top: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 4px solid #0038BC; box-sizing: border-box;">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #333; font-weight: 600;">Active Order Status</h3>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                <span id="dashStatusBadge" style="padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; color: white; display: inline-block;">
+                    Pending Approval
+                </span>
+            </div>
+            <p style="font-size: 11px; color: #777; margin-top: 8px; margin-bottom: 0; line-height: 1.4;">
+                *Admin decisions update here automatically upon order verification.
+            </p>
+        </div>
+
+        <button onclick="processLogout()" style="background: #d9534f; color: white; border: none; padding: 12px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 6px; margin-top: 25px; transition: 0.2s; font-size: 15px;">
+            <i class="fa-solid fa-right-from-bracket"></i> Log Out Account
+        </button>
+    </div>
+</div>
+
+<h2 class="category-title">Explore our categories of clothes</h2>
+
+<div class="image-container">
+    <div class="image-box">
+        <img src="images/women.jpg" class="women-image">
+        <p class="name">Women's Clothes</p>
+        <a href="#women-clothes"><button class="buy-btn">Explore</button></a>
+    </div>
+
+    <div class="image-box">
+        <img src="images/men.jpg" class="men-image">
+        <p class="name">Men's Clothes</p>
+        <a href="#men-clothes"><button class="buy-btn">Explore</button></a>
+    </div>
+
+    <div class="image-box">
+        <img src="images/kid.png" class="kid-image">
+        <p class="name">Kid's Clothes</p>
+        <a href="#kid"><button class="buy-btn">Explore</button></a>
+    </div>
+</div>
+
+<!-- UPDATED CART SIDEBAR WITH TOP-LEFT CLOSE TRIGGER -->
+<aside id="cart-sidebar" class="cart-sidebar">
+    <!-- Close Icon placed cleanly at the top left of the cart container layout -->
+    <span onclick="toggleCart()" class="cart-close-icon">&times;</span>
+    
+    <h2 style="margin-top: 15px;">Your Cart</h2>
+    <div id="cart-items"></div>
+    <div class="cart-buttons">
+        <button class="checkout-btn" onclick="openCheckout()">Checkout</button>
+        <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+        <!-- Text button removed from this container section seamlessly -->
+    </div>
+</aside>
+
+<div id="checkoutModal" class="checkout-modal">
+    <div class="checkout-content">
+        <span class="close-modal" onclick="closeCheckout()">&times;</span>
+
+        <div id="checkout-step-form">
+            <h2>Delivery Details</h2>
+            <form id="deliveryForm" onsubmit="goToPreview(event)">
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" id="custName" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number:</label>
+                    <input type="tel" id="custPhone" required placeholder="e.g., 0551234567">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Location / Address:</label>
+                    <input type="text" id="custLocation" required placeholder="e.g., Koforidua, Near KTU Main Campus">
+                </div>
+                <button type="submit" class="download-btn" style="margin-top: 15px;">
+                    Proceed to Preview & Receipt
+                </button>
+            </form>
+        </div>
+
+        <div id="checkout-step-preview" style="display: none;">
+            <h2>Review Your Order</h2>
+            
+            <div class="delivery-preview-box">
+                <h3>Delivery Info</h3>
+                <p><strong>Name:</strong> <span id="prevName"></span></p>
+                <p><strong>Phone:</strong> <span id="prevPhone"></span></p>
+                <p><strong>Location:</strong> <span id="prevLocation"></span></p>
+                <button class="clear-btn" onclick="goToForm()" style="padding: 4px 10px; font-size: 12px; margin-top: 5px;">
+                    <i class="fa-solid fa-pen"></i> Edit Details
+                </button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="checkoutBody"></tbody>
+            </table>
+
+            <h3 id="checkoutTotal"></h3>
+
+            <button class="download-btn" onclick="downloadReceiptAndSendWhatsApp()">
+                Confirm, Download Receipt & Send to WhatsApp
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="receipt-template" style="display: none;">
+    <div class="receipt" style="padding: 30px; font-family: 'Poppins', sans-serif;">
+        <div class="receipt-header" style="text-align: center; margin-bottom: 20px;">
+            <h1 style="margin: 0; color: #0038BC;">Quad<span>Shop</span></h1>
+            <h2 style="margin: 5px 0; font-size: 18px; color: #333;">Official Order Receipt</h2>
+            <p id="receipt-number" style="font-weight: bold; color: #EF8F00; margin: 5px 0;"></p>
+            <p id="receipt-date" style="font-size: 12px; color: #666; margin: 0;"></p>
+        </div>
+
+        <div class="receipt-customer-details" style="margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; color: #333;">
+            <h3 style="font-size: 14px; margin-bottom: 8px; color: #0038BC;">Customer Delivery Information</h3>
+            <p style="margin: 3px 0; font-size: 13px;"><strong>Customer Name:</strong> <span id="rcpt-cust-name"></span></p>
+            <p style="margin: 3px 0; font-size: 13px;"><strong>Phone Number:</strong> <span id="rcpt-cust-phone"></span></p>
+            <p style="margin: 3px 0; font-size: 13px;"><strong>Delivery Address:</strong> <span id="rcpt-cust-location"></span></p>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; color: #333;">
+            <thead>
+                <tr style="background: #f4f6f9; text-align: left;">
+                    <th style="padding: 8px; border: 1px solid #ddd;">Name</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Size</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Qty</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Price</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="receipt-body"></tbody>
+        </table>
+
+        <div class="receipt-total" style="text-align: right; margin-bottom: 20px;">
+            <h2 id="receipt-total" style="margin: 0; color: #333; font-size: 20px;"></h2>
+        </div>
+
+        <div class="receipt-status" style="text-align: center; font-weight: bold; color: #28a745; margin-bottom: 10px;">✔ Order Received</div>
+        <p class="receipt-footer-text" style="text-align: center; font-size: 11px; color: #999; margin: 0;">This is a computer-generated, digitally signed order statement.</p>
+    </div>
+</div>
+
+<main>
+    <section id="women-clothes">
+        <h2 class="section-title">Women's <span>Collection</span></h2>
+        <div id="women-grid" class="product-grid"></div>
+    </section>
+
+    <section id="men-clothes">
+        <h2 class="section-title">Men's <span>Collection</span></h2>
+        <div id="men-grid" class="product-grid"></div>
+    </section>
+
+    <section id="kid">
+        <h2 class="section-title">Kid's <span>Collection</span></h2>
+        <div id="kids-grid" class="product-grid"></div>
+    </section>
+</main>
+
+<!-- <p class="payment-option">Payment <span>Options</span></p>
+<div class="payment-details">
+    <div class="transaction-image">
+        <div class="momo-details">
+            <p class="momo-title">Momo Name</p>
+            <p class="momo-name">QuadShop Limited</p>
+            <p class="momo-title">Momo Number</p>
+            <p class="momo-number">0503900447</p>
+        </div>
+        <img src="images/money transaction.jpg" alt="Payment Methods" class="payment-image">
+    </div>
+
+    <div class="line"></div>
+
+    <div class="qrcode">
+        <div class="transaction-image">
+            <p class="momo-title">Scan QR Code</p>
+            <img src="images/qr code.png" alt="QR Code" class="qr-image">
+        </div>
+    </div>
+</div> -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h2 class="footer-logo">Quad<span class="footer-span">Shop</span></h2>
+            <p class="footer-description">
+                Your one-stop destination for quality apparel for men,
+                women, and children. Shop the latest trends at affordable prices.
+            </p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="collection.html">Collection</a></li>
+                <li><a href="collection.html#women-clothes">Women's Collection</a></li>
+                <li><a href="collection.html#men-clothes">Men's Collection</a></li>
+                <li><a href="collection.html#kid">Kid's Collection</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact Info</h3>
+            <div class="footer-contact">
+                <img src="images/telephone.png" alt="Phone">
+                <p>+233 55 123 4567</p>
+            </div>
+            <div class="footer-contact">
+                <img src="images/chatting.png" alt="WhatsApp">
+                <p>+233 50 390 0447</p>
+            </div>
+            <div class="footer-contact">
+                <img src="images/email.png" alt="Email">
+                <p>shoponline@gmail.com</p>
+            </div>
+            <div class="footer-contact">
+                <img src="images/location.png" alt="Location">
+                <p>Koforidua, Ghana</p>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="footer-social">
+                <a href="https://www.facebook.com"><img src="images/facebook.png" alt="Facebook"></a>
+                <img src="images/snapchat.png" alt="Snapchat">
+                <img src="images/instagram.png" alt="Instagram">
+                <img src="images/tik-tok.png" alt="TikTok">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 QuadShop. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="collection.js"></script>
+
+</body>
+</html>
