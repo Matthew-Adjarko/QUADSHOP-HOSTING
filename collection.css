@@ -683,7 +683,7 @@ html, body {
     .main-header {
         width: 100% !important;        /* Forces full screen on mobile viewports */
         margin: 0 auto !important;     /* Resets margins */
-        padding: 12px 20px !important; /* Balanced inner mobile padding */
+        padding: 12px 50px !important; /* Balanced inner mobile padding */
         border-radius: 0 !important;   /* Strips pill round corners on mobile screens */
         position: sticky;
         top: 0 !important;             /* Eliminates gaps at top edge */
