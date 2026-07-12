@@ -338,13 +338,21 @@ html, body {
 
 /* Mobile Screens Optimization Breakpoint */
 @media (max-width: 768px) {
+
+    /* body {
+        padding-top: 90px !important; /* Reserves space for the now-fixed pill header + its 10px
+                                          top offset, so page content doesn't load underneath it. */
+     
+
     .main-header {
         width: 92% !important;
         margin: 15px auto !important;
         padding: 12px 20px !important;
         border-radius: 30px !important;
-        position: sticky;
+        position: fixed !important;
         top: 10px;
+        left: 0;
+        right: 0;
         display: flex !important;
         flex-direction: row !important; /* Keep logo, toggle, and search on one row baseline */
         flex-wrap: wrap; /* Gracefully break search element or buttons to subsequent lines cleanly */
