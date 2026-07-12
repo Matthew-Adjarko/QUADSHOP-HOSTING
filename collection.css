@@ -681,15 +681,15 @@ html, body {
 /* Mobile Screens Optimization Breakpoint */
 @media (max-width: 768px) {
     .main-header {
-        width: 100% !important;        /* Forces full screen on mobile viewports */
-        margin: 0 auto !important;     /* Resets margins */
-        padding: 12px 50px !important; /* Balanced inner mobile padding */
-        border-radius: 0 !important;   /* Strips pill round corners on mobile screens */
+        width: 92% !important;
+        margin: 15px auto !important;
+        padding: 12px 20px !important;
+        border-radius: 30px !important;
         position: sticky;
-        top: 0 !important;             /* Eliminates gaps at top edge */
+        top: 10px;
         display: flex !important;
-        flex-direction: row !important; 
-        flex-wrap: wrap; 
+        flex-direction: row !important; /* Keep logo, toggle, and search on one row baseline */
+        flex-wrap: wrap; /* Gracefully break search element or buttons to subsequent lines cleanly */
         justify-content: space-between !important;
         align-items: center !important;
     }
