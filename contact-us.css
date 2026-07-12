@@ -154,13 +154,20 @@ span {
     font-weight: bold;
 }
 
-input {
+#contact input {
     border: none;
     border-radius: 10px;
     outline: none;
     padding: 12px 15px;
     width: 100%; /* Spans full space of its container parent */
     box-shadow: 0px 0px 5px rgb(207, 207, 207);
+}
+
+/* Keep the shared login/signup + dashboard modal looking identical on every page,
+   regardless of this page's own generic styling rules below. */
+#authModal span,
+#dashboardModal span {
+    color: inherit;
 }
 
 .message-box {
@@ -281,105 +288,110 @@ input {
     transform: scale(1.1);
 }
 
-/* Footer */
+/* FOOTER RULES */
 .footer {
+    background: #3e3e3e;
+    color: #fff;
+    padding: 40px 20px 20px;
     margin-top: 80px;
-    background-color: #3e3e3e;
-    color: white;
-    padding-top: 50px;
 }
 
 .footer-container {
-    width: 90%;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 40px;
-}
-
-.footer-section {
-    flex: 1;
-    min-width: 220px;
-}
-
-.footer-contact {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-.footer-contact img {
-    width: 20px;
-    height: 20px;
-}
-
-.footer-contact p {
-    margin: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
 }
 
 .footer-section h3 {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 2px solid #EF8F00;
+    padding-bottom: 5px;
+    display: inline-block;
 }
 
 .footer-logo {
-    font-size: 30px;
+    font-size: 26px;
+    margin-bottom: 10px;
 }
 
 .footer-span {
     color: #EF8F00;
-    font-size: 30px;
 }
 
 .footer-description {
-    margin-top: 15px;
-    line-height: 1.7;
+    font-size: 14px;
+    color: #bbb;
+    line-height: 1.6;
 }
 
 .footer-links {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-left: 0;
+    gap: 10px;
     list-style: none;
 }
 
 .footer-links a {
-    color: white;
+    color: #bbb;
     text-decoration: none;
+    font-size: 14px;
 }
 
 .footer-links a:hover {
     color: #EF8F00;
+    text-decoration: underline;
 }
 
-.footer-section p {
-    margin-bottom: 12px;
+.footer-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #bbb;
+}
+
+.footer-contact img {
+    width: 18px;
+    height: 18px;
+    filter: invert(1);
 }
 
 .footer-social {
     display: flex;
     gap: 15px;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .footer-social img {
-    width: 30px;
-    height: 30px;
-    transition: 0.3s;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .footer-social img:hover {
-    cursor: pointer;
-    transform: translateY(-4px);
+    transform: translateY(-3px);
 }
 
 .footer-bottom {
-    margin-top: 40px;
     text-align: center;
-    border-top: 1px solid #333;
-    padding: 20px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    font-size: 13px;
+    color: #888;
+}
+
+/* Tablet breakpoint — matches collection page's 2-column footer */
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 40px;
+    }
 }
 
 /* ==========================================================================
@@ -400,39 +412,54 @@ html, body {
 }
 
 @media (max-width: 768px) {
-    /* Step 1: Keep Header Height Uniform and Stable */
+
+    body {
+        padding-top: 90px !important; /* Reserves space for the now-fixed pill header + its 10px
+                                          top offset, so page content doesn't load underneath it. */
+    }
+
+    /* Unified mobile header — matches home page & collection page exactly */
     .main-header {
         width: 92% !important;
         margin: 15px auto !important;
         padding: 12px 20px !important;
         border-radius: 30px !important;
+        position: fixed !important;
+        top: 10px;
+        left: 0;
+        right: 0;
         display: flex !important;
         flex-direction: row !important;
+        flex-wrap: wrap;
         justify-content: space-between !important;
         align-items: center !important;
-        position: relative !important; /* Context anchor for absolute drawer */
     }
 
     .menu-toggle {
         display: block !important;
+        order: 2;
     }
 
-    /* Step 2: Absolute Positioning Overlay - Prevents Header Growth */
+    .logo, .main-header h1 {
+        font-size: 20px !important;
+        order: 1;
+    }
+
+    div[style*="display: flex"] {
+        order: 3; /* Push Auth button structure cleanly to right corner layout */
+    }
+
+    /* Unified toggle-menu dropdown — matches home page & collection page exactly */
     .main-header .tabs {
-        display: none; 
-        position: absolute;
-        top: 100%; /* Spawns cleanly right below the curved header line boundary */
-        left: 5%;
-        width: 90%;
+        display: none;
+        width: 100%;
+        order: 5;
         background: #ffffff;
-        margin-top: 8px;
-        padding: 15px !important;
-        border-radius: 20px;
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1); /* Adds clean depth separating drop panel */
-        z-index: 1001;
+        margin-top: 12px;
+        padding: 10px 0;
+        border-top: 1px solid #f0f0f0;
     }
 
-    /* Activated via Javascript event handler */
     .main-header .tabs.active {
         display: block !important;
         animation: slideDownMenu 0.3s ease-in-out forwards;
@@ -442,9 +469,9 @@ html, body {
         flex-direction: column !important;
         gap: 15px !important;
         width: 100%;
-        padding: 0 !important;
+        padding: 10px 5px !important;
         align-items: flex-start !important;
-        margin-left: 0 !important;
+        margin-left: 0 !important; /* Overrides this page's desktop 50px tab-list margin */
     }
 
     .main-header .tabs ul li {
@@ -456,6 +483,31 @@ html, body {
         width: 100%;
         padding: 8px 12px;
         font-size: 15px;
+        border-radius: 8px;
+        transition: background 0.2s;
+    }
+
+    .main-header .tabs ul li a:hover {
+        background: #fff4e6;
+        color: #EF8F00 !important;
+        text-decoration: none !important;
+    }
+
+    #auth-status-btn {
+        padding: 6px 12px !important;
+        font-size: 13px !important;
+    }
+
+    /* Matches collection page's stacked single-column footer on mobile */
+    .footer-container {
+        grid-template-columns: 1fr !important;
+        gap: 30px;
+        text-align: left;
+    }
+
+    .footer-section h3 {
+        display: block;
+        width: max-content;
     }
 
     .contact-title {
