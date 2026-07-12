@@ -17,7 +17,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px; /* Enhanced left-right inner padding since it touches the screen edges */
+    padding: 15px 50px; /* Enhanced left-right inner padding since it touches the screen edges */
     background: #fff;
     width: 100%;       /* Takes full screen horizontally */
     margin: 0;         /* Removes the top/bottom 30px floating separation */
@@ -155,6 +155,12 @@ li:hover {
 
 span {
     color: #EF8F00;
+}
+
+/* Keep the shared login/signup + dashboard modal looking identical on every page */
+#authModal span,
+#dashboardModal span {
+    color: inherit;
 }
 
 /* Payment Design */
@@ -680,16 +686,26 @@ html, body {
 
 /* Mobile Screens Optimization Breakpoint */
 @media (max-width: 768px) {
+    body {
+        padding-top: 90px !important; /* Reserves space for the now-fixed pill header + its 10px
+                                          top offset, so page content doesn't load underneath it. */
+    }
+
     .main-header {
-        width: 92% !important;
-        margin: 15px auto !important;
-        padding: 12px 20px !important;
-        border-radius: 30px !important;
-        position: sticky;
+        position: fixed !important;    /* Changed from sticky: sticky breaks in several browsers
+                                           when combined with this stylesheet's overflow-x: hidden
+                                           rule below, which is what was causing the header to
+                                           scroll out of view instead of sticking. Fixed can't hide. */
         top: 10px;
+        left: 0;
+        right: 0;
+        width: 92% !important;         /* Matches the home page & contact page pill header */
+        margin: 0 auto !important;     /* Horizontal centering only — top offset comes from `top` */
+        padding: 12px 20px !important; /* Balanced inner mobile padding */
+        border-radius: 30px !important; /* Consistent rounded pill shape on all three pages */
         display: flex !important;
-        flex-direction: row !important; /* Keep logo, toggle, and search on one row baseline */
-        flex-wrap: wrap; /* Gracefully break search element or buttons to subsequent lines cleanly */
+        flex-direction: row !important; 
+        flex-wrap: wrap; 
         justify-content: space-between !important;
         align-items: center !important;
     }
