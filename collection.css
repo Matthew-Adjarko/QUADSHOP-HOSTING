@@ -17,7 +17,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 50px; /* Enhanced left-right inner padding since it touches the screen edges */
+    padding: 15px 30px; /* Enhanced left-right inner padding since it touches the screen edges */
     background: #fff;
     width: 100%;       /* Takes full screen horizontally */
     margin: 0;         /* Removes the top/bottom 30px floating separation */
