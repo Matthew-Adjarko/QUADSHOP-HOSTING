@@ -515,3 +515,33 @@ html, body {
         font-size: 19px; /* Decreases header baseline scaling to balance screen fields nicely */
     }
 }
+
+/* Fix for iPad 12.9" and other large tablets */
+@media (max-width: 1024px) {
+    .homepage {
+        width: 90% !important; /* Uses more available screen space */
+        height: auto !important; /* Allows content to dictate height */
+        padding: 40px 20px !important;
+        border-radius: 30px !important;
+        margin-top: 120px !important;
+    }
+
+    .welcome-text {
+        width: 100% !important; /* Allows text to span full width */
+        font-size: 32px !important; /* Slightly smaller for better balance */
+        line-height: 45px !important;
+    }
+
+    .welcome-text span {
+        font-size: 40px !important; /* Matches the text scaling */
+    }
+
+    .shopping-image {
+        width: 400px !important; /* Scales down the image to fit next to text */
+        height: auto !important;
+    }
+
+    .welcome-text-container {
+        gap: 20px !important; /* Reduces gap to fit 1024px constraints */
+    }
+}
