@@ -131,7 +131,7 @@ a:hover {
 
 @media (max-width: 480px) {
     .login-form {
-        margin-top: 60px;
+        margin-top: 20px;
         width: 100%;
         max-width: 350px;
         height: auto;
