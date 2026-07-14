@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuadShop</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" type="image/png" href="../QuadShop logo.png">
+</head>
+<body>
+    <div class="login-form">
+            <img src="images/account profile.jpg" class="account-profile">
+            <img src="images/QuadShop logo.png" class="shop-logo">
+
+            <form id="loginForm" class="inputs-div" onsubmit="submitLogin(event)">
+                <input type="text" id="loginPhone" placeholder="Phone Number" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <p class="forget-password">Forgot password?</p>
+                <button type="submit">Login</button>
+                <p class="have-account">Don't have an account? <a href="new account.html">Sign Up</a></p>
+            </form>
+    </div>
+
+    <script>
+        // Handles login against auth.php and, on success, stores the session
+        // and sends the user back to the main site - replaces the old popup
+        // modal's submitAuthForm() logic.
+        function submitLogin(event) {
+            event.preventDefault();
+
+            const submitBtn = event.target.querySelector("button[type='submit']");
+            const phone = document.getElementById("loginPhone").value;
+            const password = document.getElementById("loginPassword").value;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Logging in...";
+
+            fetch('http://localhost/quadshop/auth.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'login', phone, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    sessionStorage.setItem("currentUser", JSON.stringify(data.user));
+                    // Take the user back to the main page after logging in
+                    window.location.href = "Official Website.html";
+                } else {
+                    alert(data.message);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Login";
+                }
+            })
+            .catch(err => {
+                console.error("Authentication backend execution dropped:", err);
+                alert("Could not reach the server. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Login";
+            });
+        }
+    </script>
+</body>
+</html>

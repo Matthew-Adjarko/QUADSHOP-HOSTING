@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuadShop</title>
+    <link rel="stylesheet" href="new account.css">
+    <link rel="icon" type="image/png" href="images/QuadShop logo.png">
+</head>
+<body>
+    <div class="login-form">
+            <img src="images/account profile.jpg" class="account-profile">
+            <img src="images/QuadShop logo.png" class="shop-logo">
+
+            <form id="signupForm" class="inputs-div" onsubmit="submitSignup(event)">
+                <input type="text" id="signupName" placeholder="Full Name" required>
+                <input type="text" id="signupPhone" placeholder="Phone Number" required>
+                <input type="password" id="signupPassword" placeholder="Password" required>
+                <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <p class="or"> Or </p>
+
+            <div class="sign-in-with-google">
+                <img class="google-icon" src="images/google.png"> 
+                <p class="sign-in"><a href="#">continue with Google</a></p>  
+            </div>
+                
+            <p class="have-account-1">Already have an account? <a href="login.html">Sign In</a></p>
+
+
+
+
+
+    </div>
+
+    <script>
+        // Handles account creation against auth.php - replaces the old popup
+        // modal's toggleAuthMode()/submitAuthForm() sign-up path.
+        function submitSignup(event) {
+            event.preventDefault();
+
+            const submitBtn = event.target.querySelector("button[type='submit']");
+            const name = document.getElementById("signupName").value;
+            const phone = document.getElementById("signupPhone").value;
+            const password = document.getElementById("signupPassword").value;
+            const confirmPassword = document.getElementById("signupConfirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Creating account...";
+
+            fetch('http://localhost/quadshop/auth.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'signup', name, phone, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    // Account created - send them to log in with their new credentials
+                    window.location.href = "login.html";
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Sign Up";
+                }
+            })
+            .catch(err => {
+                console.error("Authentication backend execution dropped:", err);
+                alert("Could not reach the server. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Sign Up";
+            });
+        }
+    </script>
+</body>
+</html>

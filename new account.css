@@ -1,0 +1,226 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(254, 246, 246);
+    min-height: 100vh;
+    padding: 20px 15px;
+}
+
+/* Login form */
+.login-form {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    width: 350px;
+    max-width: 100%;
+    height: 670px;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgb(0, 0, 0,0.08);
+}
+
+.account-profile {
+    width: 100px;
+    border-radius: 200px;
+    margin-top: 50px;
+}
+
+.shop-logo {
+    margin-top: -60px;
+    width: 200px;
+    max-width: 55%;
+}
+
+input {
+    outline: none;
+    width: 300px;
+    max-width: 100%;
+    height: 50px;
+    padding: 12px;
+    border-radius: 15px;
+    border: none;
+    background-color: rgb(229, 229, 229);
+}
+
+.inputs-div {
+    gap: 10px;
+    margin-top: -70px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 25px;
+}
+
+.forget-password {
+    width: 300px;
+    max-width: 100%;
+    font-size: 13px;
+    text-align: right;
+}
+
+.forget-password:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+button {
+    background-color: #0038BC;
+    color: white;
+    cursor: pointer;
+    border: none;
+    width: 300px;
+    max-width: 100%;
+    height: 40px;
+    margin-top: 15px;
+    border-radius: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 0.15s ease-in;
+}
+
+button:hover {
+    background-color: #022d92;
+}
+
+button:active {
+    background-color: #0038BC;
+}
+
+.have-account {
+    font-size: 13px;
+
+}
+
+::placeholder {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.or {
+    margin-top: 10px;
+}
+
+.sign-in {
+    text-decoration: underline;
+}
+
+.sign-in-with-google {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 30px;
+    background-color: #ededed;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.sign-in-with-google p {
+    font-size: 13px;
+    margin: 0;
+}
+
+.google-icon {
+    margin-top: 5px;
+    mix-blend-mode: multiply;
+    border-radius: 10px;
+    width: 20px;
+}
+
+
+.have-account-1 {
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+@media (max-width: 480px) {
+    .login-form {
+        margin-top: 40px;
+        margin-bottom: 30px;
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        padding-bottom: 25px;
+    }
+
+    .account-profile {
+        width: 80px;
+        margin-top: 30px;
+    }
+
+    .shop-logo {
+        width: 160px;
+        margin-top: -35px;
+    }
+
+    .inputs-div {
+        margin-top: -45px;
+        padding: 0 20px;
+        gap: 12px;
+    }
+
+    input {
+        height: 46px;
+    }
+
+    button {
+        height: 44px;
+        margin-top: 10px;
+    }
+
+    .sign-in-with-google {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .have-account-1 {
+        text-align: center;
+    }
+}
+
+@media (max-width: 340px) {
+    .account-profile {
+        width: 70px;
+    }
+
+    .shop-logo {
+        width: 140px;
+    }
+}
