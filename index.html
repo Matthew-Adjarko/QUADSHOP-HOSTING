@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuadShop</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Official Website.css">
     <link rel="icon" type="image/png" href="../QuadShop logo.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -22,10 +22,10 @@
     <div class="tabs" id="navTabs">
         <ul>
             <!-- If you are on the homepage, make sure the links route cleanly -->
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#about">About</a></li>
+            <li><a href="Official Website.html">Home</a></li>
+            <li><a href="#about">About</a></li>
             <li><a href="collection.html">Collection</a></li>
-            <li><a href="contact-us.html">Contact</a></li>
+            <li><a href="contact us.html">Contact</a></li>
         </ul>
     </div>
 
@@ -38,35 +38,11 @@
     </div>
 </header>
 
-
 <div id="liveToastNotification" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 100001; padding: 15px 20px; border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.3s ease;">
     <span id="toastIcon" style="font-size: 20px;"></span>
     <div>
         <strong id="toastTitle" style="display: block; font-size: 14px;"></strong>
         <span id="toastMessage" style="font-size: 12px; opacity: 0.9;"></span>
-    </div>
-</div>
-
-<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:10000;">
-    <div style="background:#fff; padding:30px; border-radius:8px; max-width:400px; width:100%; position: relative; color: #333;">
-        <span onclick="closeAuthModal()" style="position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; font-weight: bold;">&times;</span>
-        <h2 id="authTitle" style="margin-top: 0;">Log In to Your Account</h2>
-        <form id="authForm" onsubmit="submitAuthForm(event)">
-            <div id="authNameContainer" style="margin-bottom:10px; display: none;">
-                <label>Full Name:</label>
-                <input type="text" id="authName" style="width:100%; padding:8px;">
-            </div>
-            <div style="margin-bottom:10px;">
-                <label>Phone Number:</label>
-                <input type="text" id="authPhone" required style="width:100%; padding:8px;">
-            </div>
-            <div style="margin-bottom:10px;">
-                <label>Password:</label>
-                <input type="password" id="authPassword" required style="width:100%; padding:8px;">
-            </div>
-            <button type="submit" style="background:#0038BC; color:white; border:none; padding:10px; width:100%; font-weight:bold; cursor:pointer;">Submit</button>
-        </form>
-        <p id="authToggleText" style="text-align:center; margin-top:15px; font-size:14px; cursor:pointer; color:#EF8F00; margin-bottom: 0;" onclick="toggleAuthMode()">Don't have an account? Sign Up</p>
     </div>
 </div>
 
@@ -101,7 +77,7 @@
         </button>
     </div>
 </div>
-    
+
 <div class="homepage">
     <div class="welcome-text-image">
         <div class="welcome-text-container">
@@ -150,7 +126,7 @@
         <div class="footer-section">
             <h3>Quick Links</h3>
             <ul class="footer-links">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Home</a></li>
                 <li><a href="collection.html">Collection</a></li>
                 <li><a href="collection.html#women-clothes">Women's Collection</a></li>
                 <li><a href="collection.html#men-clothes">Men's Collection</a></li>
