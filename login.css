@@ -24,7 +24,7 @@ body {
 .login-form {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 140px;
+    margin-top: 50px;
     display: flex;
     flex-direction: column; 
     align-items: center;
