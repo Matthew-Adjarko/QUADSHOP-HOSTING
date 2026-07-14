@@ -14,7 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
-    font-family: Poppins, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(254, 246, 246);
     min-height: 100vh;
     padding: 20px 15px;
@@ -22,14 +22,14 @@ body {
 
 /* Login form */
 .login-form {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: column; 
     align-items: center;
     width: 350px;
     max-width: 100%;
-    height: 450px;
+    min-height: 450px;
+    height: auto;
     border-radius: 20px;
     background-color: white;
     box-shadow: 0px 0px 10px rgb(0, 0, 0,0.08);
@@ -130,16 +130,16 @@ a:hover {
 
 @media (max-width: 480px) {
     .login-form {
-        margin-top: 20px;
         width: 100%;
         max-width: 350px;
+        min-height: auto;
         height: auto;
         padding-bottom: 30px;
     }
 
     .account-profile {
         width: 80px;
-        margin-top: 15px;
+        margin-top: 35px;
     }
 
     .shop-logo {
