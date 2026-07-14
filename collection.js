@@ -213,20 +213,15 @@ function clearCart() {
 }
 
 /* AUTH UI & DASHBOARD CONTROLLERS */
-function openAuthModal() {
-    document.getElementById("authModal").style.display = "flex";
-}
 
-function closeAuthModal() {
-    document.getElementById("authModal").style.display = "none";
-}
-
-// 1. Decides whether to route user to Dashboard or open Authentication form
+// 1. Decides whether to route user to Dashboard or send them to the login page.
+// The old popup sign-in/sign-up modal has been replaced by dedicated pages
+// (login.html / new account.html) - see those files for the actual auth form logic.
 function handleAuthClick() {
     if (currentUser) {
         openDashboardModal();
     } else {
-        openAuthModal();
+        window.location.href = "login.html";
     }
 }
 
@@ -286,64 +281,6 @@ function processLogout() {
     }
 }
 
-let isSignUpMode = false;
-function toggleAuthMode() {
-    isSignUpMode = !isSignUpMode;
-    const authTitle = document.getElementById("authTitle");
-    const authNameContainer = document.getElementById("authNameContainer");
-    const authNameInput = document.getElementById("authName");
-    const authToggleText = document.getElementById("authToggleText");
-
-    if (isSignUpMode) {
-        authTitle.textContent = "Create an Account";
-        authNameContainer.style.display = "block";
-        authNameInput.required = true;
-        authToggleText.textContent = "Already have an account? Sign In";
-    } else {
-        authTitle.textContent = "Log In to Your Account";
-        authNameContainer.style.display = "none";
-        authNameInput.required = false;
-        authNameInput.value = "";
-        authToggleText.textContent = "Don't have an account? Sign Up";
-    }
-}
-
-function submitAuthForm(event) {
-    event.preventDefault();
-    const action = isSignUpMode ? 'signup' : 'login';
-    const payload = {
-        action: action,
-        name: document.getElementById("authName").value,
-        phone: document.getElementById("authPhone").value,
-        password: document.getElementById("authPassword").value
-    };
-
-    fetch('http://localhost/quadshop/auth.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert(data.message);
-        if (data.success) {
-            if (!isSignUpMode) {
-                currentUser = data.user;
-                sessionStorage.setItem("currentUser", JSON.stringify(data.user));
-                lastKnownStatus = data.user.orderStatus || "Pending";
-                updateAuthUI();
-                closeAuthModal();
-                // Clear input values
-                document.getElementById("authPhone").value = "";
-                document.getElementById("authPassword").value = "";
-            } else {
-                toggleAuthMode();
-            }
-        }
-    })
-    .catch(err => console.error("Authentication backend execution dropped:", err));
-}
-
 /* SECRET ADMIN BACKEND SIMULATION ENGINE */
 function openAdminPanel() {
     const adminTargetText = document.getElementById("adminTargetUser");
@@ -384,7 +321,7 @@ function changeOrderStatus(newStatus) {
 function openCheckout() {
     if (!currentUser) {
         alert("Access Denied: You must create an account or log in to place an order!");
-        openAuthModal();
+        window.location.href = "login.html";
         return;
     }
     if (cart.length === 0) {
